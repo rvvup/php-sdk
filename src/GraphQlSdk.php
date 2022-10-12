@@ -71,6 +71,7 @@ query merchant ($id: ID!, $total: MoneyInput!) {
                     assets {
                         assetType
                         url
+                        attributes
                     }
                     limits {
                         total {
