@@ -158,6 +158,7 @@ mutation orderExpressUpdate ($input: OrderExpressUpdateInput!) {
         type
         externalReference
         status
+        dashboardUrl
         paymentSummary {
             paymentActions {
                 type
