@@ -53,8 +53,8 @@ class GraphQlSdk
     /**
      * @param string $cartTotal
      * @param string $currency
+     * @param array|null $inputOptions
      * @return array
-     * @throws \Exception
      */
     public function getMethods(string $cartTotal, string $currency, array $inputOptions = null): array
     {
@@ -80,6 +80,103 @@ query merchant ($id: ID!, $total: MoneyInput!) {
                             currency
                         }
                         expiresAt
+                    },
+                    settings {
+                         assets {
+                            assetType
+                            url
+                            attributes
+                         }
+                         ... on PaypalPaymentMethodSettings {
+                             checkout {
+                                 button {
+                                     enabled
+                                     layout {
+                                         value
+                                     }
+                                     color {
+                                         value
+                                     }
+                                     shape {
+                                         value
+                                     }
+                                     label {
+                                         value
+                                     }
+                                     tagline
+                                     size
+                                 }
+                                 payLaterMessaging {
+                                     enabled
+                                     layout {
+                                         value
+                                     }
+                                     logoType {
+                                         value
+                                     }
+                                     logoPosition {
+                                         value
+                                     }
+                                     textColor {
+                                         value
+                                     }
+                                     textSize
+                                     textAlignment {
+                                         value
+                                     }
+                                     color {
+                                         value
+                                     }
+                                     ratio {
+                                         value
+                                     }
+                                 }
+                             }
+                             product {
+                                 button {
+                                     enabled
+                                     layout {
+                                         value
+                                     }
+                                     color {
+                                         value
+                                     }
+                                     shape {
+                                         value
+                                     }
+                                     label {
+                                         value
+                                     }
+                                     tagline
+                                     size
+                                 }
+                                 payLaterMessaging {
+                                     enabled
+                                     layout {
+                                         value
+                                     }
+                                     logoType {
+                                         value
+                                     }
+                                     logoPosition {
+                                         value
+                                     }
+                                     textColor {
+                                         value
+                                     }
+                                     textSize
+                                     textAlignment {
+                                         value
+                                     }
+                                     color {
+                                         value
+                                     }
+                                     ratio {
+                                         value
+                                     }
+                                 }
+                             }
+                         }
                     }
                 }
             }
@@ -304,10 +401,8 @@ query ping {
 }
 QUERY;
         $response = $this->doRequest($query);
-        if (is_array($response) && isset($response["data"]["ping"]["pong"])) {
-            return true;
-        }
-        return false;
+
+        return is_array($response) && isset($response["data"]["ping"]["pong"]);
     }
 
     /**
