@@ -64,9 +64,9 @@ query merchant ($id: ID!, $total: MoneyInput!) {
         paymentMethods (search: {includeInactive: false, total: $total}) {
             edges {
                 node {
-                    name,
-                    displayName,
-                    description,
+                    name
+                    displayName
+                    description
                     summaryUrl
                     assets {
                         assetType
@@ -80,103 +80,103 @@ query merchant ($id: ID!, $total: MoneyInput!) {
                             currency
                         }
                         expiresAt
-                    },
+                    }
                     settings {
-                         assets {
+                        assets {
                             assetType
                             url
                             attributes
-                         }
-                         ... on PaypalPaymentMethodSettings {
-                             checkout {
-                                 button {
-                                     enabled
-                                     layout {
-                                         value
-                                     }
-                                     color {
-                                         value
-                                     }
-                                     shape {
-                                         value
-                                     }
-                                     label {
-                                         value
-                                     }
-                                     tagline
-                                     size
-                                 }
-                                 payLaterMessaging {
-                                     enabled
-                                     layout {
-                                         value
-                                     }
-                                     logoType {
-                                         value
-                                     }
-                                     logoPosition {
-                                         value
-                                     }
-                                     textColor {
-                                         value
-                                     }
-                                     textSize
-                                     textAlignment {
-                                         value
-                                     }
-                                     color {
-                                         value
-                                     }
-                                     ratio {
-                                         value
-                                     }
-                                 }
-                             }
-                             product {
-                                 button {
-                                     enabled
-                                     layout {
-                                         value
-                                     }
-                                     color {
-                                         value
-                                     }
-                                     shape {
-                                         value
-                                     }
-                                     label {
-                                         value
-                                     }
-                                     tagline
-                                     size
-                                 }
-                                 payLaterMessaging {
-                                     enabled
-                                     layout {
-                                         value
-                                     }
-                                     logoType {
-                                         value
-                                     }
-                                     logoPosition {
-                                         value
-                                     }
-                                     textColor {
-                                         value
-                                     }
-                                     textSize
-                                     textAlignment {
-                                         value
-                                     }
-                                     color {
-                                         value
-                                     }
-                                     ratio {
-                                         value
-                                     }
-                                 }
-                             }
-                         }
+                        }
+                        ... on PaypalPaymentMethodSettings {
+                            checkout {
+                                button {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    shape {
+                                        value
+                                    }
+                                    label {
+                                        value
+                                    }
+                                    tagline
+                                    size
+                                }
+                                payLaterMessaging {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    logoType {
+                                        value
+                                    }
+                                    logoPosition {
+                                        value
+                                    }
+                                    textColor {
+                                        value
+                                    }
+                                    textSize
+                                    textAlignment {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    ratio {
+                                        value
+                                    }
+                                }
+                            }
+                            product {
+                                button {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    shape {
+                                        value
+                                    }
+                                    label {
+                                        value
+                                    }
+                                    tagline
+                                    size
+                                }
+                                payLaterMessaging {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    logoType {
+                                        value
+                                    }
+                                    logoPosition {
+                                        value
+                                    }
+                                    textColor {
+                                        value
+                                    }
+                                    textSize
+                                    textAlignment {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    ratio {
+                                        value
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -207,6 +207,7 @@ QUERY;
                 "summaryUrl" => $method["summaryUrl"],
                 "assets" => $method["assets"],
                 "limits" => $method["limits"],
+                "settings" => $method["settings"] ?? null
             ];
         }
         return $methods;
