@@ -51,15 +51,15 @@ class GraphQlSdk
     }
 
     /**
-     * @param string $cartTotal
-     * @param string $currency
+     * @param string|null $cartTotal
+     * @param string|null $currency
      * @param array|null $inputOptions
      * @return array
      */
-    public function getMethods(string $cartTotal, string $currency, array $inputOptions = null): array
+    public function getMethods(string $cartTotal = null, string $currency = null, array $inputOptions = null): array
     {
         $query = <<<'QUERY'
-query merchant ($id: ID!, $total: MoneyInput!) {
+query merchant ($id: ID!, $total: MoneyInput) {
     merchant (id: $id) {
         paymentMethods (search: {includeInactive: false, total: $total}) {
             edges {
@@ -184,12 +184,19 @@ query merchant ($id: ID!, $total: MoneyInput!) {
     }
 }
 QUERY;
-        $variables = [
-            "id" => $this->merchantId,
-            "total" => [
+
+        $total = null;
+
+        if ($cartTotal !== null && $currency !== null) {
+            $total = [
                 "amount" => $cartTotal,
                 "currency" => $currency,
-            ],
+            ];
+        }
+
+        $variables = [
+            "id" => $this->merchantId,
+            "total" => $total,
         ];
         try {
             $response = $this->doRequest($query, $variables, $inputOptions);
