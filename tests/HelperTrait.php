@@ -11,12 +11,13 @@ namespace Rvvup\Sdk\Tests;
 trait HelperTrait
 {
     /**
+     * @param int|null $length
      * @return string
      * @throws \Exception
      */
-    public function getRandomString(): string
+    public function getRandomString(?int $length = null): string
     {
-        return bin2hex(random_bytes(6));
+        return bin2hex(random_bytes($length ?? 6));
     }
 
     /**

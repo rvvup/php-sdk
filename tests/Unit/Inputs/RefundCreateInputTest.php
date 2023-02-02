@@ -46,4 +46,49 @@ class RefundCreateInputTest extends TestCase
         $input = new RefundCreateInput('ORDASSA', (string) $amount, 'GBP', 'KEY', 'Reason');
         $this->assertEquals((string) $amount, $input->getAmount());
     }
+
+    /**
+     * @test
+     * @group refund
+     * @group input
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function assert_currency_argument_is_set(): void
+    {
+        $currency = $this->getRandomString(3);
+        $input = new RefundCreateInput('ORDASSA', '000', $currency, 'KEY', 'Reason');
+        $this->assertEquals($currency, $input->getCurrency());
+    }
+
+    /**
+     * @test
+     * @group refund
+     * @group input
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function assert_idempotency_key_argument_is_set(): void
+    {
+        $idempotencyKey = $this->getRandomString();
+        $input = new RefundCreateInput('ORDASSA', '000', 'GBP', $idempotencyKey, 'Reason');
+        $this->assertEquals($idempotencyKey, $input->getIdempotencyKey());
+    }
+
+    /**
+     * @test
+     * @group refund
+     * @group input
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function assert_reason_argument_is_set(): void
+    {
+        $reason = $this->getRandomString();
+        $input = new RefundCreateInput('ORDASSA', '000', 'GBP', 'KEY', $reason);
+        $this->assertEquals($reason, $input->getReason());
+    }
 }
