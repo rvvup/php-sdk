@@ -22,5 +22,15 @@
         "psr-4": {
             "Rvvup\\Sdk\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rvvup\\Sdk\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
