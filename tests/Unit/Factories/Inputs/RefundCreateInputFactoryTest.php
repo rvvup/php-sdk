@@ -10,7 +10,7 @@ use Rvvup\Sdk\Factories\Inputs\RefundCreateInputFactory;
 /**
  * @test
  * @group factory
- * @group test
+ * @group refund
  * @group input
  */
 class RefundCreateInputFactoryTest extends TestCase
