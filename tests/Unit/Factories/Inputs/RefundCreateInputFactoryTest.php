@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Rvvup\Sdk\Factories\Inputs\RefundCreateInputFactory;
 
 /**
- * @test
  * @group factory
  * @group refund
  * @group input
@@ -20,6 +19,10 @@ class RefundCreateInputFactoryTest extends TestCase
      * and we provide null for Reason
      * the returned created RefundCreateInput reason is an empty string.
      *
+     * @test
+     * @group factory
+     * @group refund
+     * @group input
      * @return void
      */
     public function assert_created_input_reason_property_is_empty_string_if_provided_reason_argument_is_null(): void

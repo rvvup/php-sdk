@@ -9,7 +9,6 @@ use Rvvup\Sdk\Inputs\RefundCreateInput;
 use Rvvup\Sdk\Tests\HelperTrait;
 
 /**
- * @test
  * @group refund
  * @group input
  */
