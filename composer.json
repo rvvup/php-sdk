@@ -8,6 +8,7 @@
         "guzzlehttp/guzzle": ">=6"
     },
     "require": {
+        "psr/http-client": "^1",
         "ext-curl": "*",
         "ext-json": "*",
         "php": "^7.3 || ^8.0"
