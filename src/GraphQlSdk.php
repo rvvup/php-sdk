@@ -11,14 +11,30 @@ class GraphQlSdk
     private $merchantId;
     /** @var string */
     private $authToken;
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
-    /** @var bool */
-    private $debug;
     /** @var string */
     private $userAgent;
-    /** @var Curl */
+
+    /**
+     * An HTTP Client similar to Guzzle's HTTP Client.
+     * ToDo: Refactor to use PSR-18 Interface
+     *
+     * @var Curl
+     */
     private $adapter;
+
+    /**
+     * A Logger implementation (eg PSR Logger).
+     *
+     * @var null
+     */
+    private $logger;
+
+    /**
+     * Enable debug logging.
+     *
+     * @var bool
+     */
+    private $debug;
 
     /**
      * @param string $endpoint
