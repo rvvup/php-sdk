@@ -8,10 +8,9 @@
         "guzzlehttp/guzzle": ">=6"
     },
     "require": {
-        "psr/http-client": "^1",
+        "php": "^7.3 || ^8.0",
         "ext-curl": "*",
-        "ext-json": "*",
-        "php": "^7.3 || ^8.0"
+        "ext-json": "*"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "dev-master",
@@ -30,6 +29,7 @@
         }
     },
     "config": {
+        "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
