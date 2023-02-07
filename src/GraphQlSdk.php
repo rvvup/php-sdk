@@ -2,6 +2,7 @@
 
 namespace Rvvup\Sdk;
 
+use Rvvup\Sdk\Exceptions\NetworkException;
 use Rvvup\Sdk\Inputs\RefundCreateInput;
 
 class GraphQlSdk
@@ -543,6 +544,7 @@ QUERY;
      * @param null $variables
      * @param array|null $inputOptions
      * @return mixed
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
      * @throws \Exception
      */
@@ -596,6 +598,13 @@ QUERY;
                 $this->log("Successful GraphQL request", $debugData);
             }
             return $processed;
+        }
+
+        if ($responseCode >= 500 && $responseCode < 600) {
+            throw new NetworkException(
+                'There was a network error returned via the API. Please use the same idempotency if you retry',
+                500
+            );
         }
 
         //Unexpected HTTP response code
