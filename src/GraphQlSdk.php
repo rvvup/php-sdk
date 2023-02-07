@@ -602,8 +602,7 @@ QUERY;
 
         if ($responseCode >= 500 && $responseCode < 600) {
             throw new NetworkException(
-                'There was a network error returned via the API. Please use the same idempotency if you retry',
-                500
+                'There was a network error returned via the API. Please use the same idempotency if you retry.',
             );
         }
 
