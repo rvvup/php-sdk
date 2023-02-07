@@ -502,6 +502,8 @@ QUERY;
     /**
      * @param \Rvvup\Sdk\Inputs\RefundCreateInput $input
      * @return array|false
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
+     * @throws \JsonException
      * @throws \Exception
      */
     public function refundCreate(RefundCreateInput $input) {
