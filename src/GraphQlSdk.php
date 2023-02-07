@@ -3,6 +3,7 @@
 namespace Rvvup\Sdk;
 
 use Rvvup\Sdk\Exceptions\NetworkException;
+use Rvvup\Sdk\Inputs\GetOrderInput;
 use Rvvup\Sdk\Inputs\RefundCreateInput;
 
 class GraphQlSdk
@@ -539,6 +540,56 @@ QUERY;
         }
 
         return false;
+    }
+
+    /**
+     * @param \Rvvup\Sdk\Inputs\GetOrderInput $input
+     * @return false|array = [
+     *     'id' => 'Rvvup Order Id',
+     *     'payments' => [
+     *         [
+     *             'id' => 'Rvvup Payment Id',
+     *             'refunds' => [
+     *                 'id' => 'Rvvup Refund Id',
+     *                 'status' => 'Rvvup Refund Status',
+     *                 'reason' => 'Rvvup Refund Reason'
+     *             ],
+     *         ],
+     *     ]
+     * ]
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
+     * @throws \JsonException
+     * @throws \Exception
+     */
+    public function getOrderRefunds(GetOrderInput $input)
+    {
+        $query = <<<'QUERY'
+query order ($id: ID!, $merchant: IdInput!) {
+    order (id: $id, merchant: $merchant) {
+        id
+        payments {
+            id
+            refunds {
+                id
+                status
+                reason
+            }
+        }
+    }
+}
+QUERY;
+        $variables = [
+            "id" => $input->getOrderId(),
+            "merchant" => [
+                "id" => $this->merchantId,
+            ],
+        ];
+
+        $response = $this->doRequest($query, $variables);
+
+        return is_array($response) && isset($response['data']['order']['payments'])
+            ? $response['data']['order']
+            : false;
     }
 
     /**
