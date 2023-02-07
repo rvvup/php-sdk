@@ -9,6 +9,7 @@ use Rvvup\Sdk\Inputs\GetOrderInput;
 use Rvvup\Sdk\Tests\HelperTrait;
 
 /**
+ * @group order
  * @group refund
  * @group input
  */
@@ -18,6 +19,7 @@ class GetOrderInputTest extends TestCase
 
     /**
      * @test
+     * @group order
      * @group refund
      * @group input
      *

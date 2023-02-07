@@ -7,7 +7,7 @@ namespace Rvvup\Sdk\Inputs;
 class GetOrderInput implements InputInterface
 {
     /**
-     * Rvvup's Order ID to Refund.
+     * Rvvup's Order ID to fetch refunds for.
      *
      * @var string
      */
@@ -23,7 +23,7 @@ class GetOrderInput implements InputInterface
     }
 
     /**
-     * Get Rvvup's Order ID to Refund.
+     * Get Rvvup's Order ID to fetch refunds for.
      *
      * @return string
      */
