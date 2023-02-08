@@ -32,7 +32,7 @@ class GetOrderRefundsTest extends TestCase
                                 'status' => 'PENDING/SUCCEEDED/FAILED',
                                 'reason' => 'Some Reason',
                                 'amount' => [
-                                    'amount' => 10.00,
+                                    'amount' => '10.00', // Keep as string otherwise decimal zeros are removed by PHP.
                                     'currency' => 'GBP'
                                 ]
                             ]
@@ -73,6 +73,40 @@ class GetOrderRefundsTest extends TestCase
         $inputFactory = new GetOrderInputFactory();
 
         $this->assertIsArray($graphQlSdk->getOrderRefunds($inputFactory->create('ORXXXX')));
+    }
+
+    /**
+     * @test
+     * @group refund
+     *
+     * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
+     * @throws \JsonException
+     * @throws \Exception
+     */
+    public function assert_successful_result_get_order_refunds_call(): void
+    {
+        $curlStub = $this->createStub(Curl::class);
+
+        $graphQlSdk = new GraphQlSdk(
+            'https://endpoint.com/url',
+            'MEXXXXXXX',
+            'AUTH_TOKEN',
+            'USER_AGENT',
+            $curlStub,
+            null,
+            false
+        );
+
+        $response = new Response(200, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
+
+        $curlStub->method('request')->willReturn($response);
+
+        $inputFactory = new GetOrderInputFactory();
+
+        $responseData = $this->getOrderRefundsResponseData['data']['order'];
+
+        $this->assertSame($responseData, $graphQlSdk->getOrderRefunds($inputFactory->create('ORXXXX')));
     }
 
     /**
