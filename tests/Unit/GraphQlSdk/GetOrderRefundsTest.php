@@ -19,17 +19,22 @@ use Rvvup\Sdk\Response;
  */
 class GetOrderRefundsTest extends TestCase
 {
-    private $getOrderRefundsData = [
+    private $getOrderRefundsResponseData = [
         'data' => [
             'order' => [
-                'id' => 'REXXXXXXX',
+                'id' => 'ORXXXXXXX',
                 'payments' => [
                     [
                         'id' => 'PAYXXXXXX',
                         'refunds' => [
                             [
                                 'id' => 'REXXXXX',
-
+                                'status' => 'PENDING/SUCCEEDED/FAILED',
+                                'reason' => 'Some Reason',
+                                'amount' => [
+                                    'amount' => 10.00,
+                                    'currency' => 'GBP'
+                                ]
                             ]
                         ]
                     ]
@@ -61,7 +66,7 @@ class GetOrderRefundsTest extends TestCase
             false
         );
 
-        $response = new Response(200, json_encode($this->getOrderRefundsData, JSON_THROW_ON_ERROR), []);
+        $response = new Response(200, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
 
         $curlStub->method('request')->willReturn($response);
 
@@ -74,7 +79,9 @@ class GetOrderRefundsTest extends TestCase
      * @test
      *
      * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
+     * @throws \Exception
      */
     public function assert_false_on_empty_response(): void
     {
@@ -103,8 +110,9 @@ class GetOrderRefundsTest extends TestCase
      * @test
      *
      * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
-     * @throws Exception
+     * @throws \Exception
      */
     public function assert_exception_on_non_2xx_response_code(): void
     {
@@ -122,7 +130,7 @@ class GetOrderRefundsTest extends TestCase
             false
         );
 
-        $response = new Response(400, json_encode($this->getOrderRefundsData, JSON_THROW_ON_ERROR), []);
+        $response = new Response(400, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
 
         $curlStub->method('request')->willReturn($response);
 
@@ -135,6 +143,7 @@ class GetOrderRefundsTest extends TestCase
      * @test
      *
      * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
      * @throws \Exception
      */
@@ -154,7 +163,7 @@ class GetOrderRefundsTest extends TestCase
             false
         );
 
-        $response = new Response(random_int(500, 599), json_encode($this->getOrderRefundsData, JSON_THROW_ON_ERROR), []);
+        $response = new Response(random_int(500, 599), json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
 
         $curlStub->method('request')->willReturn($response);
 

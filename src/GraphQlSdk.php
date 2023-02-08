@@ -573,6 +573,10 @@ query order ($id: ID!, $merchant: IdInput!) {
                 id
                 status
                 reason
+                amount {
+                    amount
+                    currency
+                }
             }
         }
     }
