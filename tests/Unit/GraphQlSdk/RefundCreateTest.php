@@ -42,15 +42,7 @@ class RefundCreateTest extends TestCase
     {
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(200, json_encode($this->refundCreateData, JSON_THROW_ON_ERROR), []);
 
@@ -77,15 +69,7 @@ class RefundCreateTest extends TestCase
     {
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(200, json_encode($this->refundCreateData['data'], JSON_THROW_ON_ERROR), []);
 
@@ -115,15 +99,7 @@ class RefundCreateTest extends TestCase
 
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(400, json_encode($this->refundCreateData, JSON_THROW_ON_ERROR), []);
 
@@ -152,15 +128,7 @@ class RefundCreateTest extends TestCase
 
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(random_int(500, 599), json_encode($this->refundCreateData, JSON_THROW_ON_ERROR), []);
 
@@ -175,5 +143,22 @@ class RefundCreateTest extends TestCase
             'KEY',
             'RANDOM REASON'
         )));
+    }
+
+    /**
+     * @param $adapterStub
+     * @return \Rvvup\Sdk\GraphQlSdk
+     */
+    private function createGraphQlSdk($adapterStub): GraphQlSdk
+    {
+        return new GraphQlSdk(
+            'https://endpoint.com/url',
+            'MEXXXXXXX',
+            'AUTH_TOKEN',
+            'USER_AGENT',
+            $adapterStub,
+            null,
+            false
+        );
     }
 }
