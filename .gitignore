@@ -1,4 +1,25 @@
+# Composer files
+/vendor/
 composer.lock
+composer.phar
+
+# PHPUnit report
+/tests/report/
+/clover.xml
+/phpunit.xml
+.phpunit.result.cache
+
+# Environment files
+.env
 
 # IDE
 .idea/
+
+# Docker files used for local testing of different PHP versions.
+docker-compose.yml
+/.docker/**/*
+/Dockerfile
+
+# Exclude Dockerfile example to be used with docker compose example
+# Allows to setup different PHP versions for local test of library in different php versions.
+!/.docker/Dockerfile.example

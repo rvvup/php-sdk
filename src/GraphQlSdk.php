@@ -2,6 +2,9 @@
 
 namespace Rvvup\Sdk;
 
+use Rvvup\Sdk\Exceptions\NetworkException;
+use Rvvup\Sdk\Inputs\RefundCreateInput;
+
 class GraphQlSdk
 {
     private const REDACTED = "***REDACTED***";
@@ -11,14 +14,30 @@ class GraphQlSdk
     private $merchantId;
     /** @var string */
     private $authToken;
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
-    /** @var bool */
-    private $debug;
     /** @var string */
     private $userAgent;
-    /** @var Curl */
+
+    /**
+     * An HTTP Client similar to Guzzle's HTTP Client.
+     * ToDo: Refactor to use PSR-18 Interface
+     *
+     * @var Curl
+     */
     private $adapter;
+
+    /**
+     * A Logger implementation (eg PSR Logger).
+     *
+     * @var null
+     */
+    private $logger;
+
+    /**
+     * Enable debug logging.
+     *
+     * @var bool
+     */
+    private $debug;
 
     /**
      * @param string $endpoint
@@ -481,10 +500,52 @@ QUERY;
     }
 
     /**
+     * @param \Rvvup\Sdk\Inputs\RefundCreateInput $input
+     * @return array|false
+     * @throws \Exception
+     */
+    public function refundCreate(RefundCreateInput $input) {
+        $query = <<<'QUERY'
+mutation refundCreate ($input: RefundCreateInput!) {
+    refundCreate (input: $input) {
+        id
+        amount {
+            amount
+            currency
+        }
+        status
+    }
+}
+QUERY;
+        $variables = [
+            "input" => [
+                "orderId" => $input->getOrderId(),
+                'merchantId' => $this->merchantId,
+                'amount' => [
+                    'amount' => $input->getAmount(),
+                    'currency' => $input->getCurrency(),
+                ],
+                'reason' => $input->getReason(),
+                'idempotencyKey' => $input->getIdempotencyKey(),
+            ],
+        ];
+
+        $response = $this->doRequest($query, $variables);
+
+        if (is_array($response) && isset($response['data']['refundCreate'])) {
+            return $response['data']['refundCreate'];
+        }
+
+        return false;
+    }
+
+    /**
      * @param $query
      * @param null $variables
      * @param array|null $inputOptions
      * @return mixed
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
+     * @throws \JsonException
      * @throws \Exception
      */
     private function doRequest($query, $variables = null, array $inputOptions = null)
@@ -505,6 +566,7 @@ QUERY;
         if ($inputOptions !== null) {
             $options = array_merge($options, $inputOptions);
         }
+
         $response = $this->adapter->request("POST", $this->endpoint, $options);
         $request = $this->sanitiseRequestBody($data);
         $body = (string) $response->getBody();
@@ -518,7 +580,7 @@ QUERY;
         ];
 
         if ($responseCode === 200) {
-            $processed = json_decode($body, true);
+            $processed = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
             if (isset($processed["errors"])) {
                 $this->log("GraphQL response error", $debugData);
                 $errors = $processed["errors"];
@@ -537,6 +599,13 @@ QUERY;
             }
             return $processed;
         }
+
+        if ($responseCode >= 500 && $responseCode < 600) {
+            throw new NetworkException(
+                'There was a network error returned via the API. Please use the same idempotency if you retry.',
+            );
+        }
+
         //Unexpected HTTP response code
         $this->log('Unexpected HTTP response code', $debugData);
         throw new \Exception("Unexpected HTTP response code");
@@ -565,7 +634,7 @@ QUERY;
             return $request;
         }
         foreach ($request["variables"]["input"] as $key => $value) {
-            if (in_array($key, $redactableKeys)) {
+            if (in_array($key, $redactableKeys, true)) {
                 $request["variables"]["input"][$key] = self::REDACTED;
             }
         }
