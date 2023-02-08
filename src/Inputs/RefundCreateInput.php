@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Rvvup\Sdk\Inputs;
 
+/**
+ * We should not create this class directly.
+ * Use \Rvvup\Sdk\Factories\Inputs\RefundCreateInputFactory instead, to generate one.
+ */
 class RefundCreateInput implements InputInterface
 {
     /**
