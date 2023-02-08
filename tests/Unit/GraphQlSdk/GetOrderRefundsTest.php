@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Rvvup\Sdk\Tests\Unit\GraphQlSdk;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
 use Rvvup\Sdk\Curl;
 use Rvvup\Sdk\Exceptions\NetworkException;
 use Rvvup\Sdk\Factories\Inputs\GetOrderInputFactory;
-use Rvvup\Sdk\GraphQlSdk;
 use Rvvup\Sdk\Response;
 
 /**
@@ -17,7 +15,7 @@ use Rvvup\Sdk\Response;
  * @group order
  * @group refund
  */
-class GetOrderRefundsTest extends TestCase
+class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 {
     private $getOrderRefundsResponseData = [
         'data' => [
@@ -56,15 +54,7 @@ class GetOrderRefundsTest extends TestCase
     {
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(200, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
 
@@ -88,15 +78,7 @@ class GetOrderRefundsTest extends TestCase
     {
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(200, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
 
@@ -121,15 +103,7 @@ class GetOrderRefundsTest extends TestCase
     {
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(200, json_encode([], JSON_THROW_ON_ERROR), []);
 
@@ -154,15 +128,7 @@ class GetOrderRefundsTest extends TestCase
 
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(400, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
 
@@ -187,15 +153,7 @@ class GetOrderRefundsTest extends TestCase
 
         $curlStub = $this->createStub(Curl::class);
 
-        $graphQlSdk = new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $curlStub,
-            null,
-            false
-        );
+        $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
         $response = new Response(random_int(500, 599), json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
 
