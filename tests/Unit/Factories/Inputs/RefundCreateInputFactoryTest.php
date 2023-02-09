@@ -16,7 +16,7 @@ use Rvvup\Sdk\Inputs\RefundCreateInput;
 class RefundCreateInputFactoryTest extends TestCase
 {
     /**
-     * Assert that the returned input interface is of GetOrderInput
+     * Assert that the returned input interface is of RefundCreateInput
      *
      * @test
      * @group factory

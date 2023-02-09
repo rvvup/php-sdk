@@ -3,7 +3,6 @@
 namespace Rvvup\Sdk;
 
 use Rvvup\Sdk\Exceptions\NetworkException;
-use Rvvup\Sdk\Inputs\GetOrderInput;
 use Rvvup\Sdk\Inputs\RefundCreateInput;
 
 class GraphQlSdk
@@ -543,7 +542,7 @@ QUERY;
     }
 
     /**
-     * @param \Rvvup\Sdk\Inputs\GetOrderInput $input
+     * @param string $orderId
      * @return false|array = [
      *     'id' => 'Rvvup Order Id',
      *     'payments' => [
