@@ -561,7 +561,7 @@ QUERY;
      * @throws \JsonException
      * @throws \Exception
      */
-    public function getOrderRefunds(GetOrderInput $input)
+    public function getOrderRefunds(string $orderId)
     {
         $query = <<<'QUERY'
 query order ($id: ID!, $merchant: IdInput!) {
@@ -583,7 +583,7 @@ query order ($id: ID!, $merchant: IdInput!) {
 }
 QUERY;
         $variables = [
-            "id" => $input->getOrderId(),
+            "id" => $orderId,
             "merchant" => [
                 "id" => $this->merchantId,
             ],

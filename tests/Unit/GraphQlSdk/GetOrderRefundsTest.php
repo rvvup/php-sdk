@@ -7,8 +7,8 @@ namespace Rvvup\Sdk\Tests\Unit\GraphQlSdk;
 use Exception;
 use Rvvup\Sdk\Curl;
 use Rvvup\Sdk\Exceptions\NetworkException;
-use Rvvup\Sdk\Factories\Inputs\GetOrderInputFactory;
 use Rvvup\Sdk\Response;
+use Rvvup\Sdk\Tests\HelperTrait;
 
 /**
  * @test
@@ -17,29 +17,7 @@ use Rvvup\Sdk\Response;
  */
 class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 {
-    private $getOrderRefundsResponseData = [
-        'data' => [
-            'order' => [
-                'id' => 'ORXXXXXXX',
-                'payments' => [
-                    [
-                        'id' => 'PAYXXXXXX',
-                        'refunds' => [
-                            [
-                                'id' => 'REXXXXX',
-                                'status' => 'PENDING/SUCCEEDED/FAILED',
-                                'reason' => 'Some Reason',
-                                'amount' => [
-                                    'amount' => '10.00', // Keep as string otherwise decimal zeros are removed by PHP.
-                                    'currency' => 'GBP'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]
-    ];
+    use HelperTrait;
 
     /**
      * @test
@@ -56,13 +34,16 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(200, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
+        $orderId = $this->getRandomString();
+
+        $response = new Response(
+            200,
+            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+        );
 
         $curlStub->method('request')->willReturn($response);
 
-        $inputFactory = new GetOrderInputFactory();
-
-        $this->assertIsArray($graphQlSdk->getOrderRefunds($inputFactory->create('ORXXXX')));
+        $this->assertIsArray($graphQlSdk->getOrderRefunds($orderId));
     }
 
     /**
@@ -80,15 +61,18 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(200, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
+        $orderId = $this->getRandomString();
+
+        $response = new Response(
+            200,
+            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+        );
 
         $curlStub->method('request')->willReturn($response);
 
-        $inputFactory = new GetOrderInputFactory();
+        $responseData = $this->getOrderRefundsResponseData($orderId)['data']['order'];
 
-        $responseData = $this->getOrderRefundsResponseData['data']['order'];
-
-        $this->assertSame($responseData, $graphQlSdk->getOrderRefunds($inputFactory->create('ORXXXX')));
+        $this->assertSame($responseData, $graphQlSdk->getOrderRefunds($orderId));
     }
 
     /**
@@ -109,9 +93,7 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $curlStub->method('request')->willReturn($response);
 
-        $inputFactory = new GetOrderInputFactory();
-
-        $this->assertFalse($graphQlSdk->getOrderRefunds($inputFactory->create('ORXXXX')));
+        $this->assertFalse($graphQlSdk->getOrderRefunds($this->getRandomString()));
     }
 
     /**
@@ -130,13 +112,16 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(400, json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
+        $orderId = $this->getRandomString();
+
+        $response = new Response(
+            400,
+            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+        );
 
         $curlStub->method('request')->willReturn($response);
 
-        $inputFactory = new GetOrderInputFactory();
-
-        $this->assertFalse($graphQlSdk->getOrderRefunds($inputFactory->create('ORXXXX')));
+        $this->assertFalse($graphQlSdk->getOrderRefunds($orderId));
     }
 
     /**
@@ -155,12 +140,46 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(random_int(500, 599), json_encode($this->getOrderRefundsResponseData, JSON_THROW_ON_ERROR), []);
+        $orderId = $this->getRandomString();
+
+        $response = new Response(
+            random_int(500, 599),
+            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+        );
 
         $curlStub->method('request')->willReturn($response);
 
-        $inputFactory = new GetOrderInputFactory();
+        $this->assertFalse($graphQlSdk->getOrderRefunds($orderId));
+    }
 
-        $this->assertFalse($graphQlSdk->getOrderRefunds($inputFactory->create('ORXXXX')));
+    /**
+     * @param string $orderId
+     * @return array[]
+     */
+    private function getOrderRefundsResponseData(string $orderId): array
+    {
+        return [
+            'data' => [
+                'order' => [
+                    'id' => $orderId,
+                    'payments' => [
+                        [
+                            'id' => 'PAYXXXXXX',
+                            'refunds' => [
+                                [
+                                    'id' => 'REXXXXX',
+                                    'status' => 'PENDING/SUCCEEDED/FAILED',
+                                    'reason' => 'Some Reason',
+                                    'amount' => [
+                                        'amount' => '10.00', // Keep as string otherwise decimal zeros are removed by PHP.
+                                        'currency' => 'GBP'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }
