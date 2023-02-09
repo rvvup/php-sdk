@@ -551,7 +551,11 @@ QUERY;
      *             'refunds' => [
      *                 'id' => 'Rvvup Refund Id',
      *                 'status' => 'Rvvup Refund Status',
-     *                 'reason' => 'Rvvup Refund Reason'
+     *                 'reason' => 'Rvvup Refund Reason',
+     *                 'amount' => [
+     *                     'amount' => '10.00',
+     *                     'currency' => 'GBP'
+     *                 ]
      *             ],
      *         ],
      *     ]
