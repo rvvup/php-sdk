@@ -506,7 +506,8 @@ QUERY;
      * @throws \JsonException
      * @throws \Exception
      */
-    public function refundCreate(RefundCreateInput $input) {
+    public function refundCreate(RefundCreateInput $input)
+    {
         $query = <<<'QUERY'
 mutation refundCreate ($input: RefundCreateInput!) {
     refundCreate (input: $input) {
