@@ -660,14 +660,15 @@ QUERY;
             return $processed;
         }
 
+        //Unexpected HTTP response code
+        $this->log('Unexpected HTTP response code', $debugData);
+
         if ($responseCode >= 500 && $responseCode < 600) {
             throw new NetworkException(
                 'There was a network error returned via the API. Please use the same idempotency if you retry.',
             );
         }
 
-        //Unexpected HTTP response code
-        $this->log('Unexpected HTTP response code', $debugData);
         throw new \Exception("Unexpected HTTP response code");
     }
 
