@@ -502,9 +502,12 @@ QUERY;
     /**
      * @param \Rvvup\Sdk\Inputs\RefundCreateInput $input
      * @return array|false
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
+     * @throws \JsonException
      * @throws \Exception
      */
-    public function refundCreate(RefundCreateInput $input) {
+    public function refundCreate(RefundCreateInput $input)
+    {
         $query = <<<'QUERY'
 mutation refundCreate ($input: RefundCreateInput!) {
     refundCreate (input: $input) {
@@ -537,6 +540,64 @@ QUERY;
         }
 
         return false;
+    }
+
+    /**
+     * @param string $orderId
+     * @return false|array = [
+     *     'id' => 'Rvvup Order Id',
+     *     'payments' => [
+     *         [
+     *             'id' => 'Rvvup Payment Id',
+     *             'refunds' => [
+     *                 'id' => 'Rvvup Refund Id',
+     *                 'status' => 'Rvvup Refund Status',
+     *                 'reason' => 'Rvvup Refund Reason',
+     *                 'amount' => [
+     *                     'amount' => '10.00',
+     *                     'currency' => 'GBP'
+     *                 ]
+     *             ],
+     *         ],
+     *     ]
+     * ]
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
+     * @throws \JsonException
+     * @throws \Exception
+     */
+    public function getOrderRefunds(string $orderId)
+    {
+        $query = <<<'QUERY'
+query order ($id: ID!, $merchant: IdInput!) {
+    order (id: $id, merchant: $merchant) {
+        id
+        payments {
+            id
+            refunds {
+                id
+                status
+                reason
+                amount {
+                    amount
+                    currency
+                }
+            }
+        }
+    }
+}
+QUERY;
+        $variables = [
+            "id" => $orderId,
+            "merchant" => [
+                "id" => $this->merchantId,
+            ],
+        ];
+
+        $response = $this->doRequest($query, $variables);
+
+        return is_array($response) && isset($response['data']['order']['payments'])
+            ? $response['data']['order']
+            : false;
     }
 
     /**
@@ -600,14 +661,15 @@ QUERY;
             return $processed;
         }
 
+        //Unexpected HTTP response code
+        $this->log('Unexpected HTTP response code', $debugData);
+
         if ($responseCode >= 500 && $responseCode < 600) {
             throw new NetworkException(
-                'There was a network error returned via the API. Please use the same idempotency if you retry.',
+                'There was a network error returned via the API. Please use the same idempotency if you retry.'
             );
         }
 
-        //Unexpected HTTP response code
-        $this->log('Unexpected HTTP response code', $debugData);
         throw new \Exception("Unexpected HTTP response code");
     }
 

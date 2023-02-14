@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace Rvvup\Sdk\Tests\Unit\GraphQlSdk;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
 use Rvvup\Sdk\Curl;
 use Rvvup\Sdk\Exceptions\NetworkException;
 use Rvvup\Sdk\Factories\Inputs\RefundCreateInputFactory;
-use Rvvup\Sdk\GraphQlSdk;
 use Rvvup\Sdk\Response;
 
 /**
  * @test
  * @group refund
  */
-class RefundCreateTest extends TestCase
+class RefundCreateTest extends AbstractGraphQlSdkTestCase
 {
     private $refundCreateData = [
         'data' => [
@@ -36,7 +34,9 @@ class RefundCreateTest extends TestCase
      * @group refund
      *
      * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
+     * @throws \Exception
      */
     public function assert_successful_refund_call(): void
     {
@@ -63,7 +63,9 @@ class RefundCreateTest extends TestCase
      * @test
      *
      * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
+     * @throws \Exception
      */
     public function assert_false_on_empty_response(): void
     {
@@ -90,8 +92,9 @@ class RefundCreateTest extends TestCase
      * @test
      *
      * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
-     * @throws Exception
+     * @throws \Exception
      */
     public function assert_exception_on_non_2xx_response_code(): void
     {
@@ -120,7 +123,9 @@ class RefundCreateTest extends TestCase
      * @test
      *
      * @return void
+     * @throws \Rvvup\Sdk\Exceptions\NetworkException
      * @throws \JsonException
+     * @throws \Exception
      */
     public function assert_network_exception_on_5xx_response_code(): void
     {
@@ -143,22 +148,5 @@ class RefundCreateTest extends TestCase
             'KEY',
             'RANDOM REASON'
         )));
-    }
-
-    /**
-     * @param $adapterStub
-     * @return \Rvvup\Sdk\GraphQlSdk
-     */
-    private function createGraphQlSdk($adapterStub): GraphQlSdk
-    {
-        return new GraphQlSdk(
-            'https://endpoint.com/url',
-            'MEXXXXXXX',
-            'AUTH_TOKEN',
-            'USER_AGENT',
-            $adapterStub,
-            null,
-            false
-        );
     }
 }
