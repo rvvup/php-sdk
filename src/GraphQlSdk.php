@@ -253,7 +253,23 @@ mutation OrderCreate($input: OrderCreateInput!) {
         status
         redirectToCheckoutUrl
         dashboardUrl
-        paymentSummary {
+    }
+}
+QUERY;
+        return $this->doRequest($query, $orderData);
+    }
+
+    /**
+     * @param $paymentData
+     * @return mixed
+     * @throws \Exception
+     */
+    public function createPayment($paymentData)
+    {
+        $query = <<<'QUERY'
+mutation paymentCreate($input: PaymentCreateInput!) {
+    paymentCreate(input: $input) {
+        summary {
             paymentActions {
                 type
                 method
@@ -263,7 +279,27 @@ mutation OrderCreate($input: OrderCreateInput!) {
     }
 }
 QUERY;
-        return $this->doRequest($query, $orderData);
+        return $this->doRequest($query, $paymentData);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     * @throws \Exception
+     */
+    public function updateOrder($data)
+    {
+        $query = <<<'QUERY'
+mutation OrderUpdate($input: OrderUpdateInput!){
+    orderUpdate(input: $input) {
+        id
+        status
+        redirectToCheckoutUrl
+        dashboardUrl
+    }
+}
+QUERY;
+        return $this->doRequest($query, $data);
     }
 
     /**
@@ -319,8 +355,11 @@ query order ($id: ID!, $merchant: IdInput!) {
         }
         redirectToStoreUrl
         redirectToCheckoutUrl
-        status
         dashboardUrl
+        status
+        payments {
+            status
+        }
     }
 }
 QUERY;
@@ -333,7 +372,11 @@ QUERY;
 
         $response = $this->doRequest($query, $variables);
 
-        return is_array($response) && isset($response['data']['order']) ? $response['data']['order'] : false;
+        if (is_array($response) && isset($response['data']['order'])) {
+            return $response['data']['order'];
+        }
+
+        return false;
     }
 
     /**
