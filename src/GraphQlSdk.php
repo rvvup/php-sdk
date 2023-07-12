@@ -358,6 +358,7 @@ query order ($id: ID!, $merchant: IdInput!) {
         dashboardUrl
         status
         payments {
+            id
             status
         }
     }
@@ -486,9 +487,9 @@ QUERY;
     {
         $query = <<<'QUERY'
 mutation merchantWebhookCreate($input: WebhookCreateInput!) {
-	merchantWebhookCreate(input: $input) {
-		url
-	}
+    merchantWebhookCreate(input: $input) {
+        url
+    }
 }
 QUERY;
         $variables = [
@@ -641,6 +642,33 @@ QUERY;
         return is_array($response) && isset($response['data']['order']['payments'])
             ? $response['data']['order']
             : false;
+    }
+
+    /**
+     * @param string $paymentId
+     * @param string $orderId
+     * @return array|false
+     * @throws \Exception
+     */
+    public function cancelPayment(string $paymentId, string $orderId)
+    {
+        $query = <<<'QUERY'
+mutation paymentCancel ($input: PaymentCancelInput!) {
+    paymentCancel (input: $input) {
+        status
+    }
+}
+QUERY;
+        $variables = [
+            "input" => [
+                "id" => $paymentId,
+                "merchantId" => $this->merchantId,
+                "orderId" => $orderId,
+                "idempotencyKey" => $paymentId . "_" . $orderId,
+            ],
+        ];
+
+        return $this->doRequest($query, $variables)["data"]["paymentCancel"];
     }
 
     /**
