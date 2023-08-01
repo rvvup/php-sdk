@@ -441,7 +441,7 @@ QUERY;
                     "id" => $this->merchantId,
                 ],
                 "amount" => [
-                    "amount" => $amount,
+                    "amount" => (string) round($amount, 2),
                     "currency" => "GBP",
                 ],
                 "reason" => $reason,
@@ -569,7 +569,7 @@ QUERY;
                 "orderId" => $input->getOrderId(),
                 'merchantId' => $this->merchantId,
                 'amount' => [
-                    'amount' => $input->getAmount(),
+                    'amount' => (string) round((float) $input->getAmount(), 2),
                     'currency' => $input->getCurrency(),
                 ],
                 'reason' => $input->getReason(),
