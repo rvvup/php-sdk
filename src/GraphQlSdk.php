@@ -87,6 +87,7 @@ query merchant ($id: ID!, $total: MoneyInput) {
                     displayName
                     description
                     summaryUrl
+                    logoUrl
                     assets {
                         assetType
                         url
@@ -231,6 +232,7 @@ QUERY;
                 "displayName" => $method["displayName"],
                 "description" => $method["description"],
                 "summaryUrl" => $method["summaryUrl"],
+                "logoUrl" => $method["logoUrl"],
                 "assets" => $method["assets"],
                 "limits" => $method["limits"],
                 "settings" => $method["settings"] ?? null
