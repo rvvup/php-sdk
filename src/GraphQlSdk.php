@@ -197,6 +197,50 @@ query merchant ($id: ID!, $total: MoneyInput) {
                                 }
                             }
                         }
+                    ... on ClearpayPaymentMethodSettings {
+                            checkout {
+                                theme {
+                                    value
+                                }
+                                messaging {
+                                    enabled
+                                    iconType {
+                                        value
+                                    }
+                                    modalTheme {
+                                        value
+                                    }
+                                }
+                            }
+                            product {
+                                theme {
+                                    value
+                                }
+                                messaging {
+                                    enabled
+                                    iconType {
+                                        value
+                                    }
+                                    modalTheme {
+                                        value
+                                    }
+                                }
+                            }
+                            cart {
+                                theme {
+                                    value
+                                }
+                                messaging {
+                                    enabled
+                                    iconType {
+                                        value
+                                    }
+                                    modalTheme {
+                                        value
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
