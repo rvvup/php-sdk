@@ -198,54 +198,44 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             }
                         }
                     ... on ClearpayPaymentMethodSettings {
-                            enableWhenConfigured
                             checkout {
                                 theme {
-                                    name
                                     value
                                 }
                                 messaging {
                                     enabled
                                     iconType {
-                                        name
                                         value
                                     }
                                     modalTheme {
-                                        name
                                         value
                                     }
                                 }
                             }
                             product {
                                 theme {
-                                    name
                                     value
                                 }
                                 messaging {
                                     enabled
                                     iconType {
-                                        name
                                         value
                                     }
                                     modalTheme {
-                                        name
                                         value
                                     }
                                 }
                             }
                             cart {
                                 theme {
-                                    name
                                     value
                                 }
                                 messaging {
                                     enabled
                                     iconType {
-                                        name
                                         value
                                     }
                                     modalTheme {
-                                        name
                                         value
                                     }
                                 }
