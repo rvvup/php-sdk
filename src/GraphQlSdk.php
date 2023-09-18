@@ -556,8 +556,8 @@ QUERY;
             ]
         ];
         $response = $this->doRequest($query, $variables);
-        if (is_array($response) && isset($response["data"]["payment"]["paymentVoid"]["status"])) {
-            return $response["data"]["payment"]["paymentVoid"]["status"];
+        if (is_array($response) && isset($response["data"]["paymentVoid"]["status"])) {
+            return $response["data"]["payment"]["status"];
         }
         return false;
     }
