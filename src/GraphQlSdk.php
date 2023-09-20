@@ -503,6 +503,67 @@ QUERY;
     }
 
     /**
+     * @param string $orderId
+     * @return false|mixed
+     * @throws \Exception
+     */
+    public function isOrderVoidable(string $orderId)
+    {
+        $query = <<<'QUERY'
+query order ($id: ID!, $merchant: IdInput!) {
+    order (id: $id, merchant: $merchant) {
+        paymentSummary {
+            isVoidable
+        }
+    }
+}
+QUERY;
+        $variables = [
+            "id" => $orderId,
+            "merchant" => [
+                "id" => $this->merchantId,
+            ],
+        ];
+        $response = $this->doRequest($query, $variables);
+        if (is_array($response) && isset($response["data"]["order"]["paymentSummary"]["isVoidable"])) {
+            return $response["data"]["order"]["paymentSummary"]["isVoidable"];
+        }
+        return false;
+    }
+
+    /**
+     * @param string $orderId
+     * @param string $paymentId
+     * @return false|mixed
+     * @throws NetworkException
+     * @throws \JsonException
+     */
+    public function voidPayment(string $orderId, string $paymentId)
+    {
+        $query = <<<'QUERY'
+mutation paymentVoid ($input: PaymentVoidInput!) {
+    paymentVoid (input: $input) {
+        status
+    }
+}
+QUERY;
+        $variables = [
+            "input" => [
+                "id" => $paymentId,
+                "merchantId" => $this->merchantId,
+                "orderId" => $orderId,
+                "idempotencyKey" => $paymentId . "_" . $orderId,
+            ]
+        ];
+        $response = $this->doRequest($query, $variables);
+        if (is_array($response) && isset($response["data"]["paymentVoid"]["status"])) {
+            return $response["data"]["paymentVoid"]["status"];
+        }
+        return false;
+    }
+
+
+    /**
      * Check if current credentials are valid and working
      *
      * @return bool
