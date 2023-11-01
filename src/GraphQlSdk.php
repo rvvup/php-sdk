@@ -111,6 +111,24 @@ query merchant ($id: ID!, $total: MoneyInput) {
                         liveStatus
                         initializationToken
                         flow
+                        form {
+                                translation {
+                                    label {
+                                        cardNumber
+                                        expiryDate
+                                        securityCode
+                                    }
+                                    button {
+                                        pay
+                                        processing
+                                    }
+                                    error {
+                                        fieldRequired
+                                        valueTooShort
+                                        valueMismatch
+                                    }
+                                }
+                            }
                         }
                         ... on PaypalPaymentMethodSettings {
                             checkout {
