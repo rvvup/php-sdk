@@ -107,6 +107,29 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             url
                             attributes
                         }
+                        ... on CardPaymentMethodSettings {
+                        liveStatus
+                        initializationToken
+                        flow
+                        form {
+                                translation {
+                                    label {
+                                        cardNumber
+                                        expiryDate
+                                        securityCode
+                                    }
+                                    button {
+                                        pay
+                                        processing
+                                    }
+                                    error {
+                                        fieldRequired
+                                        valueTooShort
+                                        valueMismatch
+                                    }
+                                }
+                            }
+                        }
                         ... on PaypalPaymentMethodSettings {
                             checkout {
                                 button {
@@ -327,6 +350,41 @@ mutation paymentCreate($input: PaymentCreateInput!) {
 QUERY;
         return $this->doRequest($query, $paymentData);
     }
+
+    /**
+     * @param string $paymentId
+     * @param string $orderId
+     * @param string $authorizationResponse
+     * @param string|null $threeDSecureResponse
+     * @return array|false
+     * @throws \Exception
+     */
+    public function confirmCardAuthorization(
+        string $paymentId,
+        string $orderId,
+        string $authorizationResponse,
+        ?string $threeDSecureResponse
+    ) {
+        $query = <<<'QUERY'
+        mutation cardAuthorizationConfirm ($input: CardAuthorizationConfirmInput!) {
+            cardAuthorizationConfirm (input: $input) {
+                authorizationId
+            }
+        }
+QUERY;
+        $variables = [
+            "input" => [
+                "merchantId" => $this->merchantId,
+                "orderId" => $orderId,
+                "paymentId" => $paymentId,
+                "authorizationResponse" => $authorizationResponse,
+                "threeDSecureResponse" => $threeDSecureResponse,
+            ],
+        ];
+
+        return $this->doRequest($query, $variables)["data"]["cardAuthorizationConfirm"];
+    }
+
 
     /**
      * @param $data
@@ -831,7 +889,16 @@ QUERY;
                 } else {
                     $errorString = $errors[0]["message"];
                 }
-                throw new \Exception($errorString);
+                $errorCode = isset($errors[0]["extensions"]["errorCode"]) ? 
+                    $errors[0]["extensions"]["errorCode"] 
+                        : 0;
+                if ($errorCode == 'card_authorization_not_found') {
+                    $errorCode = 101;
+                } else {
+                    $errorString .= ' ' . $errorCode;
+                    $errorCode = 0;
+                }
+                throw new \Exception($errorString, $errorCode);
             }
             if ($this->debug) {
                 $this->log("Successful GraphQL request", $debugData);
