@@ -6,10 +6,11 @@ namespace Rvvup\Sdk\Exceptions;
 
 use Exception;
 
-class ApiException extends Exception
+class ApiError extends Exception
 {
-    public function __construct($message = "",$code = "",Throwable $previous = null) {
-        parent::__construct($message,0, $previous);
+    public function __construct($message = "", $code = "")
+    {
+        parent::__construct($message);
         $this->code = $code;
     }
 
@@ -18,4 +19,3 @@ class ApiException extends Exception
         return $this->code;
     }
 }
-

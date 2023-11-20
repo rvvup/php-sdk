@@ -3,6 +3,7 @@
 namespace Rvvup\Sdk;
 
 use Rvvup\Sdk\Exceptions\NetworkException;
+use Rvvup\Sdk\Exceptions\ApiError;
 use Rvvup\Sdk\Inputs\RefundCreateInput;
 
 class GraphQlSdk
@@ -891,7 +892,7 @@ QUERY;
                 }
                 $errorCode = $errors[0]["extensions"]["errorCode"] ?? "";
 
-                throw new ApiException($errorString, $errorCode);
+                throw new ApiError($errorString, $errorCode);
             }
             if ($this->debug) {
                 $this->log("Successful GraphQL request", $debugData);
