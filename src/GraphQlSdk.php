@@ -3,6 +3,7 @@
 namespace Rvvup\Sdk;
 
 use Rvvup\Sdk\Exceptions\NetworkException;
+use Rvvup\Sdk\Exceptions\ApiError;
 use Rvvup\Sdk\Inputs\RefundCreateInput;
 
 class GraphQlSdk
@@ -889,16 +890,9 @@ QUERY;
                 } else {
                     $errorString = $errors[0]["message"];
                 }
-                $errorCode = isset($errors[0]["extensions"]["errorCode"]) ? 
-                    $errors[0]["extensions"]["errorCode"] 
-                        : 0;
-                if ($errorCode == 'card_authorization_not_found') {
-                    $errorCode = 101;
-                } else {
-                    $errorString .= ' ' . $errorCode;
-                    $errorCode = 0;
-                }
-                throw new \Exception($errorString, $errorCode);
+                $errorCode = $errors[0]["extensions"]["errorCode"] ?? "";
+
+                throw new ApiError($errorString, $errorCode);
             }
             if ($this->debug) {
                 $this->log("Successful GraphQL request", $debugData);
