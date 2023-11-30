@@ -102,6 +102,7 @@ query merchant ($id: ID!, $total: MoneyInput) {
                         }
                         expiresAt
                     }
+                    captureType
                     settings {
                         assets {
                             assetType
@@ -303,7 +304,8 @@ QUERY;
                 "logoUrl" => $method["logoUrl"],
                 "assets" => $method["assets"],
                 "limits" => $method["limits"],
-                "settings" => $method["settings"] ?? null
+                "settings" => $method["settings"] ?? null,
+                "captureType" => $method["captureType"],
             ];
         }
         return $methods;
@@ -465,6 +467,8 @@ query order ($id: ID!, $merchant: IdInput!) {
         payments {
             id
             status
+            authorizationExpiresAt
+            captureType
         }
     }
 }
