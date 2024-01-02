@@ -2,8 +2,8 @@
 
 namespace Rvvup\Sdk;
 
-use Rvvup\Sdk\Exceptions\NetworkException;
 use Rvvup\Sdk\Exceptions\ApiError;
+use Rvvup\Sdk\Exceptions\NetworkException;
 use Rvvup\Sdk\Inputs\RefundCreateInput;
 
 class GraphQlSdk
@@ -341,6 +341,7 @@ QUERY;
         $query = <<<'QUERY'
 mutation paymentCreate($input: PaymentCreateInput!) {
     paymentCreate(input: $input) {
+        id
         summary {
             paymentActions {
                 type
@@ -387,7 +388,6 @@ QUERY;
 
         return $this->doRequest($query, $variables)["data"]["cardAuthorizationConfirm"];
     }
-
 
     /**
      * @param $data
@@ -625,7 +625,6 @@ QUERY;
         return false;
     }
 
-
     /**
      * Check if current credentials are valid and working
      *
@@ -839,6 +838,37 @@ QUERY;
         ];
 
         return $this->doRequest($query, $variables)["data"]["paymentCancel"];
+    }
+
+    /**
+     * @param string $orderId
+     * @param string $paymentId
+     * @return false|mixed
+     * @throws NetworkException
+     * @throws \JsonException
+     */
+    public function paymentCapture(string $orderId, string $paymentId)
+    {
+        $query = <<<'QUERY'
+mutation paymentCapture ($input: PaymentCaptureInput!) {
+    paymentCapture (input: $input) {
+        status
+    }
+}
+QUERY;
+        $variables = [
+            "input" => [
+                "id" => $paymentId,
+                "merchantId" => $this->merchantId,
+                "orderId" => $orderId,
+                "idempotencyKey" => $paymentId . "_" . $orderId,
+            ]
+        ];
+        $response = $this->doRequest($query, $variables);
+        if (is_array($response) && isset($response["data"]["paymentCapture"]["status"])) {
+            return $response["data"]["paymentCapture"]["status"];
+        }
+        return false;
     }
 
     /**
