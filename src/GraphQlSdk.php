@@ -442,7 +442,7 @@ QUERY;
             ? $response['data']['orderExpressUpdate']
             : false;
     }
-    
+
     /**
      * @param string $orderId
      * @return false|mixed
