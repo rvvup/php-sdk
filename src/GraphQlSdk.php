@@ -442,7 +442,7 @@ QUERY;
             ? $response['data']['orderExpressUpdate']
             : false;
     }
-
+    
     /**
      * @param string $orderId
      * @return false|mixed
@@ -469,6 +469,15 @@ query order ($id: ID!, $merchant: IdInput!) {
             status
             authorizationExpiresAt
             captureType
+            ... on CardPayment {
+            cvvResponseCode
+            avsAddressResponseCode
+            avsPostCodeResponseCode
+            eci
+            cavv
+            acquirerResponseCode
+            acquirerResponseMessage
+            }
         }
     }
 }
