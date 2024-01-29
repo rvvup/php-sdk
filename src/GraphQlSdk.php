@@ -478,6 +478,15 @@ query order ($id: ID!, $merchant: IdInput!) {
             acquirerResponseCode
             acquirerResponseMessage
             }
+	    ... on ApplePayPayment {
+            cvvResponseCode
+            avsAddressResponseCode
+            avsPostCodeResponseCode
+            eci
+            cavv
+            acquirerResponseCode
+            acquirerResponseMessage
+            }
         }
     }
 }
