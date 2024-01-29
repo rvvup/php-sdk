@@ -469,6 +469,24 @@ query order ($id: ID!, $merchant: IdInput!) {
             status
             authorizationExpiresAt
             captureType
+            ... on CardPayment {
+            cvvResponseCode
+            avsAddressResponseCode
+            avsPostCodeResponseCode
+            eci
+            cavv
+            acquirerResponseCode
+            acquirerResponseMessage
+            }
+	    ... on ApplePayPayment {
+            cvvResponseCode
+            avsAddressResponseCode
+            avsPostCodeResponseCode
+            eci
+            cavv
+            acquirerResponseCode
+            acquirerResponseMessage
+            }
         }
     }
 }
