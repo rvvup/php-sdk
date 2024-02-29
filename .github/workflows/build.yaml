@@ -11,35 +11,65 @@ jobs:
   php-stan:
     name: PHP Stan
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [7.3, 7.4]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: "${{ matrix.php }}"
+          tools: composer, phpstan
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "${{ runner.os }}-php-${{ matrix.php}}-composer-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "${{ runner.os }}-php-${{ matrix.php}}-composer-"
 
       - name: Install dependencies
         run: composer install --no-ansi --no-interaction --no-progress --no-scripts
 
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan
+        run: phpstan
 
   php-unit:
     name: PHP Unit
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 7.3, 7.4 ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: "${{ matrix.php }}"
+          tools: composer, phpstan
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "${{ runner.os }}-php-${{ matrix.php}}-composer-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "${{ runner.os }}-php-${{ matrix.php}}-composer-"
 
       - name: Install dependencies
         run: composer install --no-ansi --no-interaction --no-progress --no-scripts
 
       - name: Run PHPUnit
-        run: ./vendor/bin/phpunit
+        run: phpunit
