@@ -110,6 +110,7 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             attributes
                         }
                         ... on CardPaymentMethodSettings {
+                        motoEnabled
                         liveStatus
                         initializationToken
                         flow
