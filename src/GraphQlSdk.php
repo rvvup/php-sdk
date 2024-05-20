@@ -110,6 +110,7 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             attributes
                         }
                         ... on CardPaymentMethodSettings {
+                        motoEnabled
                         liveStatus
                         initializationToken
                         flow
@@ -615,11 +616,12 @@ QUERY;
     /**
      * @param string $orderId
      * @param string $paymentId
+     * @param string|null $reason
      * @return false|mixed
      * @throws NetworkException
      * @throws \JsonException
      */
-    public function voidPayment(string $orderId, string $paymentId)
+    public function voidPayment(string $orderId, string $paymentId, string $reason = null)
     {
         $query = <<<'QUERY'
 mutation paymentVoid ($input: PaymentVoidInput!) {
@@ -633,6 +635,7 @@ QUERY;
                 "id" => $paymentId,
                 "merchantId" => $this->merchantId,
                 "orderId" => $orderId,
+                'reason' => $reason,
                 "idempotencyKey" => $paymentId . "_" . $orderId,
             ]
         ];
