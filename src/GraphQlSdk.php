@@ -470,6 +470,7 @@ query order ($id: ID!, $merchant: IdInput!) {
             status
             authorizationExpiresAt
             captureType
+            declineReason
             ... on CardPayment {
             cvvResponseCode
             avsAddressResponseCode
