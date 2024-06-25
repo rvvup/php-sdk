@@ -222,6 +222,94 @@ query merchant ($id: ID!, $total: MoneyInput) {
                                     }
                                 }
                             }
+                            cart {
+                                button {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    shape {
+                                        value
+                                    }
+                                    label {
+                                        value
+                                    }
+                                    tagline
+                                    size
+                                }
+                                payLaterMessaging {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    logoType {
+                                        value
+                                    }
+                                    logoPosition {
+                                        value
+                                    }
+                                    textColor {
+                                        value
+                                    }
+                                    textSize
+                                    textAlignment {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    ratio {
+                                        value
+                                    }
+                                }
+                            }
+                            miniCart {
+                                button {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    shape {
+                                        value
+                                    }
+                                    label {
+                                        value
+                                    }
+                                    tagline
+                                    size
+                                }
+                                payLaterMessaging {
+                                    enabled
+                                    layout {
+                                        value
+                                    }
+                                    logoType {
+                                        value
+                                    }
+                                    logoPosition {
+                                        value
+                                    }
+                                    textColor {
+                                        value
+                                    }
+                                    textSize
+                                    textAlignment {
+                                        value
+                                    }
+                                    color {
+                                        value
+                                    }
+                                    ratio {
+                                        value
+                                    }
+                                }
+                            }
                         }
                     ... on ClearpayPaymentMethodSettings {
                             checkout {
