@@ -44,7 +44,7 @@ class RefundCreateTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(200, json_encode($this->refundCreateData, JSON_THROW_ON_ERROR), []);
+        $response = new Response(200, json_encode($this->refundCreateData), []);
 
         $curlStub->method('request')->willReturn($response);
 
@@ -73,7 +73,7 @@ class RefundCreateTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(200, json_encode($this->refundCreateData['data'], JSON_THROW_ON_ERROR), []);
+        $response = new Response(200, json_encode($this->refundCreateData['data']), []);
 
         $curlStub->method('request')->willReturn($response);
 
@@ -104,7 +104,7 @@ class RefundCreateTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(400, json_encode($this->refundCreateData, JSON_THROW_ON_ERROR), []);
+        $response = new Response(400, json_encode($this->refundCreateData), []);
 
         $curlStub->method('request')->willReturn($response);
 
@@ -135,7 +135,7 @@ class RefundCreateTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(random_int(500, 599), json_encode($this->refundCreateData, JSON_THROW_ON_ERROR), []);
+        $response = new Response(random_int(500, 599), json_encode($this->refundCreateData), []);
 
         $curlStub->method('request')->willReturn($response);
 

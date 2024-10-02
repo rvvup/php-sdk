@@ -1022,7 +1022,10 @@ QUERY;
         ];
 
         if ($responseCode === 200) {
-            $processed = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+            $processed = json_decode($body, true, 512);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \RuntimeException('JSON decode error: ' . json_last_error_msg());
+            }
             if (isset($processed["errors"])) {
                 $this->log("GraphQL response error", $debugData);
                 $errors = $processed["errors"];

@@ -38,7 +38,7 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $response = new Response(
             200,
-            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+            json_encode($this->getOrderRefundsResponseData($orderId)), []
         );
 
         $curlStub->method('request')->willReturn($response);
@@ -65,7 +65,7 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $response = new Response(
             200,
-            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+            json_encode($this->getOrderRefundsResponseData($orderId)), []
         );
 
         $curlStub->method('request')->willReturn($response);
@@ -89,7 +89,7 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $graphQlSdk = $this->createGraphQlSdk($curlStub);
 
-        $response = new Response(200, json_encode([], JSON_THROW_ON_ERROR), []);
+        $response = new Response(200, json_encode([]), []);
 
         $curlStub->method('request')->willReturn($response);
 
@@ -116,7 +116,7 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $response = new Response(
             400,
-            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+            json_encode($this->getOrderRefundsResponseData($orderId)), []
         );
 
         $curlStub->method('request')->willReturn($response);
@@ -144,7 +144,7 @@ class GetOrderRefundsTest extends AbstractGraphQlSdkTestCase
 
         $response = new Response(
             random_int(500, 599),
-            json_encode($this->getOrderRefundsResponseData($orderId), JSON_THROW_ON_ERROR), []
+            json_encode($this->getOrderRefundsResponseData($orderId)), []
         );
 
         $curlStub->method('request')->willReturn($response);
