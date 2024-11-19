@@ -26,6 +26,11 @@ class RvvupClient
     private $checkouts;
 
     /**
+     * @var Checkouts
+     */
+    private $checkoutTemplates;
+
+    /**
      * $var PaymentSessions
      */
     private $paymentSessions;
@@ -53,6 +58,7 @@ class RvvupClient
 
 
         $this->checkouts = new Checkouts($this);
+        $this->checkoutTemplates = new CheckoutTemplates($this);
         $this->paymentSessions = new PaymentSessions($this);
     }
 
@@ -70,6 +76,14 @@ class RvvupClient
     public function checkouts(): Checkouts
     {
         return $this->checkouts;
+    }
+
+    /**
+     * @return CheckoutTemplates
+     */
+    public function checkoutTemplates(): CheckoutTemplates
+    {
+        return $this->checkoutTemplates;
     }
 
     /**

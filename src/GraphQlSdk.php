@@ -109,6 +109,9 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             url
                             attributes
                         }
+                        ... on ApplePayPaymentMethodSettings {
+                        applePayFlow: flow
+                        }
                         ... on CardPaymentMethodSettings {
                         motoEnabled
                         liveStatus
