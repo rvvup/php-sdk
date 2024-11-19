@@ -30,13 +30,12 @@ class CheckoutTemplates
 
     /**
      * @param CheckoutTemplateCreateInput $input
-     * @param string|null $idempotencyKey
      * @return CheckoutTemplate
      * @throws ApiException
      */
-    public function create(CheckoutTemplateCreateInput $input, ?string $idempotencyKey): CheckoutTemplate
+    public function create(CheckoutTemplateCreateInput $input): CheckoutTemplate
     {
-        return $this->api->createCheckoutTemplate($this->client->getMerchantId(), $input, $idempotencyKey);
+        return $this->api->createCheckoutTemplate($this->client->getMerchantId(), $input);
     }
 
     /**
