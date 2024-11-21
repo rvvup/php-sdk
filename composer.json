@@ -11,7 +11,7 @@
         "php": "^7.3 || ^8.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "rvvup/rvvup-php-openapi": "0.2.0"
+        "rvvup/rvvup-php-openapi": "0.2.1"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
