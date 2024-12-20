@@ -110,14 +110,34 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             attributes
                         }
                         ... on ApplePayPaymentMethodSettings {
-                        applePayFlow: flow
+                            applePayFlow: flow
+                            checkout {
+                                express {
+                                    enabled
+                                }
+                            }
+                            product {
+                                express {
+                                    enabled
+                                }
+                            }
+                            cart {
+                                express {
+                                    enabled
+                                }
+                            }
+                            miniCart {
+                                express {
+                                    enabled
+                                }
+                            }
                         }
                         ... on CardPaymentMethodSettings {
-                        motoEnabled
-                        liveStatus
-                        initializationToken
-                        flow
-                        form {
+                            motoEnabled
+                            liveStatus
+                            initializationToken
+                            flow
+                            form {
                                 translation {
                                     label {
                                         cardNumber
