@@ -974,6 +974,33 @@ QUERY;
     }
 
     /**
+     * @param string $paymentId
+     * @param string $orderId
+     * @return array|false
+     * @throws \Exception
+     */
+    public function authorizePayment(string $paymentId, string $paymentSessionId)
+    {
+        $query = <<<'QUERY'
+mutation paymentAuthorize ($input: PaymentAuthorizeInput!) {
+    paymentAuthorize (input: $input) {
+        status
+    }
+}
+QUERY;
+        $variables = [
+            "input" => [
+                "id" => $paymentId,
+                "merchantId" => $this->merchantId,
+                "paymentSessionId" => $paymentSessionId,
+                "idempotencyKey" => $paymentId . "_" . $paymentSessionId,
+            ],
+        ];
+
+        return $this->doRequest($query, $variables)["data"]["paymentAuthorize"];
+    }
+
+    /**
      * @param string $orderId
      * @param string $paymentId
      * @return false|mixed
