@@ -157,6 +157,9 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             }
                         }
                         ... on PaypalPaymentMethodSettings {
+                            capture {
+                                type
+                            }
                             checkout {
                                 button {
                                     enabled
