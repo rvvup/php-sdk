@@ -582,23 +582,30 @@ query order ($id: ID!, $merchant: IdInput!) {
             authorizationExpiresAt
             captureType
             declineReason
-            ... on CardPayment {
-            cvvResponseCode
-            avsAddressResponseCode
-            avsPostCodeResponseCode
-            eci
-            cavv
-            acquirerResponseCode
-            acquirerResponseMessage
+            summary {
+                paymentActions {
+                    type
+                    method
+                    value
+                }
             }
-	    ... on ApplePayPayment {
-            cvvResponseCode
-            avsAddressResponseCode
-            avsPostCodeResponseCode
-            eci
-            cavv
-            acquirerResponseCode
-            acquirerResponseMessage
+            ... on CardPayment {
+                cvvResponseCode
+                avsAddressResponseCode
+                avsPostCodeResponseCode
+                eci
+                cavv
+                acquirerResponseCode
+                acquirerResponseMessage
+            }
+            ... on ApplePayPayment {
+                cvvResponseCode
+                avsAddressResponseCode
+                avsPostCodeResponseCode
+                eci
+                cavv
+                acquirerResponseCode
+                acquirerResponseMessage
             }
         }
     }
