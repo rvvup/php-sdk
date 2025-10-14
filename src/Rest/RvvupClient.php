@@ -34,6 +34,10 @@ class RvvupClient
      * $var PaymentSessions
      */
     private $paymentSessions;
+    /**
+     * $var ShipmentTrackings
+     */
+    private $shipmentTrackings;
 
     /**
      * @throws Exception
@@ -60,6 +64,7 @@ class RvvupClient
         $this->checkouts = new Checkouts($this);
         $this->checkoutTemplates = new CheckoutTemplates($this);
         $this->paymentSessions = new PaymentSessions($this);
+        $this->shipmentTrackings = new ShipmentTrackings($this);
     }
 
     /**
@@ -92,6 +97,14 @@ class RvvupClient
     public function paymentSessions(): PaymentSessions
     {
         return $this->paymentSessions;
+    }
+
+    /**
+     * @return ShipmentTrackings
+     */
+    public function shipmentTrackings(): ShipmentTrackings
+    {
+        return $this->shipmentTrackings;
     }
 
     /**
