@@ -334,6 +334,11 @@ query merchant ($id: ID!, $total: MoneyInput) {
                                 }
                             }
                         }
+                    ... on ZopaRetailFinancePaymentMethodSettings {
+                        product {
+                            widget { enabled }
+                        }
+                    }
                     ... on ClearpayPaymentMethodSettings {
                             checkout {
                                 theme {
