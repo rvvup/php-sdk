@@ -581,6 +581,34 @@ query order ($id: ID!, $merchant: IdInput!) {
         redirectToCheckoutUrl
         dashboardUrl
         status
+        customer {
+            givenName
+            surname
+            phoneNumber
+            email
+        }
+        shippingAddress {
+            name
+            phoneNumber
+            company
+            line1
+            line2
+            city
+            state
+            postcode
+            countryCode
+        }
+        billingAddress {
+            name
+            phoneNumber
+            company
+            line1
+            line2
+            city
+            state
+            postcode
+            countryCode
+        }
         payments {
             id
             status
