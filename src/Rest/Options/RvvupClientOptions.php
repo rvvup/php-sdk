@@ -23,7 +23,7 @@ class RvvupClientOptions
      * @param string|null $baseUrl
      * @param string|null $merchantId
      */
-    public function __construct(string $baseUrl = null, string $merchantId = null, string $userAgent = null)
+    public function __construct(?string $baseUrl = null, ?string $merchantId = null, ?string $userAgent = null)
     {
         $this->baseUrl = $baseUrl;
         $this->merchantId = $merchantId;

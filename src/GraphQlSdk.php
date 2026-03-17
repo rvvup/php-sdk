@@ -76,7 +76,7 @@ class GraphQlSdk
      * @param array|null $inputOptions
      * @return array
      */
-    public function getMethods(string $cartTotal = null, string $currency = null, array $inputOptions = null): array
+    public function getMethods(?string $cartTotal = null, ?string $currency = null, ?array $inputOptions = null): array
     {
         $query = <<<'QUERY'
 query merchant ($id: ID!, $total: MoneyInput) {
@@ -773,7 +773,7 @@ QUERY;
      * @throws NetworkException
      * @throws \JsonException
      */
-    public function voidPayment(string $orderId, string $paymentId, string $reason = null)
+    public function voidPayment(string $orderId, string $paymentId, ?string $reason = null)
     {
         $query = <<<'QUERY'
 mutation paymentVoid ($input: PaymentVoidInput!) {
@@ -1053,7 +1053,7 @@ QUERY;
      * @throws \JsonException
      * @throws \Exception
      */
-    private function doRequest($query, $variables = null, array $inputOptions = null)
+    private function doRequest($query, $variables = null, ?array $inputOptions = null)
     {
         $data = ["query" => $query];
         if ($variables !== null) {
