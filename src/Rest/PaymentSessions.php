@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Rvvup\Sdk\Rest;
 
+use Rvvup\Api\Model\PaymentMethodTokenDto;
 use Rvvup\Api\Model\PaymentSession;
 use Rvvup\Api\Model\PaymentSessionCreateInput;
 use Rvvup\Api\PaymentSessionsApi;
@@ -46,5 +47,24 @@ class PaymentSessions
     public function get(string $checkoutId, string $id): PaymentSession
     {
         return $this->api->getPaymentSession($this->client->getMerchantId(), $checkoutId, $id);
+    }
+
+    /**
+     * Returns null when no token was saved for this payment session (404).
+     *
+     * @param string $paymentSessionId
+     * @return PaymentMethodTokenDto|null
+     * @throws ApiException on non-404 errors
+     */
+    public function getSavedToken(string $paymentSessionId): ?PaymentMethodTokenDto
+    {
+        try {
+            return $this->api->getSavedToken($this->client->getMerchantId(), $paymentSessionId);
+        } catch (ApiException $e) {
+            if ($e->getCode() === 404) {
+                return null;
+            }
+            throw $e;
+        }
     }
 }
