@@ -42,7 +42,7 @@ class PaymentMethodTokensTest extends TestCase
         [$service, $api] = $this->makePaymentMethodTokens();
 
         $api->expects($this->once())
-            ->method('deletePaymentMethodToken')
+            ->method('revokePaymentMethodToken')
             ->with(self::MERCHANT_ID, self::TOKEN_ID);
 
         $result = $service->revoke(self::TOKEN_ID);
@@ -57,7 +57,7 @@ class PaymentMethodTokensTest extends TestCase
         $exception = new ApiException('Not Found', 404);
 
         $api->expects($this->once())
-            ->method('deletePaymentMethodToken')
+            ->method('revokePaymentMethodToken')
             ->willThrowException($exception);
 
         $result = $service->revoke(self::TOKEN_ID);
@@ -71,7 +71,7 @@ class PaymentMethodTokensTest extends TestCase
 
         $exception = new ApiException('Forbidden', 403);
 
-        $api->method('deletePaymentMethodToken')->willThrowException($exception);
+        $api->method('revokePaymentMethodToken')->willThrowException($exception);
 
         $this->expectException(ApiException::class);
         $this->expectExceptionCode(403);
@@ -84,7 +84,7 @@ class PaymentMethodTokensTest extends TestCase
         [$service, $api] = $this->makePaymentMethodTokens();
 
         $api->expects($this->once())
-            ->method('deletePaymentMethodToken')
+            ->method('revokePaymentMethodToken')
             ->with(self::MERCHANT_ID, $this->anything());
 
         $service->revoke(self::TOKEN_ID);

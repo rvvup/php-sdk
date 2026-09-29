@@ -6,7 +6,7 @@ namespace Rvvup\Sdk\Tests\Unit\Rest;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use Rvvup\Api\Model\PaymentMethodToken;
+use Rvvup\Api\Model\PaymentMethodTokenDto;
 use Rvvup\Api\PaymentSessionsApi;
 use Rvvup\ApiException;
 use Rvvup\Configuration;
@@ -42,10 +42,10 @@ class PaymentSessionsTest extends TestCase
     {
         [$service, $api] = $this->makePaymentSessions();
 
-        $token = new PaymentMethodToken(['id' => 'tok-1', 'cardLast4' => '4242']);
+        $token = new PaymentMethodTokenDto(['id' => 'tok-1', 'cardLast4' => '4242']);
 
         $api->expects($this->once())
-            ->method('getPaymentSessionSavedToken')
+            ->method('getSavedToken')
             ->with(self::MERCHANT_ID, self::SESSION_ID)
             ->willReturn($token);
 
@@ -61,7 +61,7 @@ class PaymentSessionsTest extends TestCase
         $exception = new ApiException('Not Found', 404);
 
         $api->expects($this->once())
-            ->method('getPaymentSessionSavedToken')
+            ->method('getSavedToken')
             ->willThrowException($exception);
 
         $result = $service->getSavedToken(self::SESSION_ID);
@@ -75,7 +75,7 @@ class PaymentSessionsTest extends TestCase
 
         $exception = new ApiException('Internal Server Error', 500);
 
-        $api->method('getPaymentSessionSavedToken')->willThrowException($exception);
+        $api->method('getSavedToken')->willThrowException($exception);
 
         $this->expectException(ApiException::class);
         $this->expectExceptionCode(500);
@@ -88,9 +88,9 @@ class PaymentSessionsTest extends TestCase
         [$service, $api] = $this->makePaymentSessions();
 
         $api->expects($this->once())
-            ->method('getPaymentSessionSavedToken')
+            ->method('getSavedToken')
             ->with(self::MERCHANT_ID, $this->anything())
-            ->willReturn(new PaymentMethodToken());
+            ->willReturn(new PaymentMethodTokenDto());
 
         $service->getSavedToken(self::SESSION_ID);
     }
