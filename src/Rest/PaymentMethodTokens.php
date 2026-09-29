@@ -30,7 +30,7 @@ class PaymentMethodTokens
     public function revoke(string $tokenId): bool
     {
         try {
-            $this->api->deletePaymentMethodToken($this->client->getMerchantId(), $tokenId);
+            $this->api->revokePaymentMethodToken($this->client->getMerchantId(), $tokenId);
             return true;
         } catch (ApiException $e) {
             if ($e->getCode() === 404) {
