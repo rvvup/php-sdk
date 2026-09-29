@@ -34,6 +34,9 @@ class RvvupClient
      * $var PaymentSessions
      */
     private $paymentSessions;
+    /** @var PaymentMethodTokens */
+    private $paymentMethodTokens;
+
     /**
      * $var ShipmentTrackings
      */
@@ -64,6 +67,7 @@ class RvvupClient
         $this->checkouts = new Checkouts($this);
         $this->checkoutTemplates = new CheckoutTemplates($this);
         $this->paymentSessions = new PaymentSessions($this);
+        $this->paymentMethodTokens = new PaymentMethodTokens($this);
         $this->shipmentTrackings = new ShipmentTrackings($this);
     }
 
@@ -97,6 +101,14 @@ class RvvupClient
     public function paymentSessions(): PaymentSessions
     {
         return $this->paymentSessions;
+    }
+
+    /**
+     * @return PaymentMethodTokens
+     */
+    public function paymentMethodTokens(): PaymentMethodTokens
+    {
+        return $this->paymentMethodTokens;
     }
 
     /**
