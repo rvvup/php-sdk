@@ -137,6 +137,7 @@ query merchant ($id: ID!, $total: MoneyInput) {
                             liveStatus
                             initializationToken
                             flow
+                            savedCardsEnabled
                             form {
                                 translation {
                                     label {
